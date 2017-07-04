@@ -104,11 +104,13 @@ h1 {
 .instructions-text-wrapper .instructions-text {
     margin-bottom: 0;
     display: block;
+    text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
 .instructions-text-wrapper .instructions-text span {
     margin-top: 5px;
     display: block;
+    text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
 .tips-overlay-link {
