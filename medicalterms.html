@@ -1,881 +1,394 @@
-<div class="modal fade show" id="medialTermModal" style="display: block;">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<html>
+
+<head>
+
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="http://localhost/wordpress/wp-content/plugins/kevalis-plugin/js/jquery-3.2.1.js"></script>
+
+    <style>
+
+        /*
+            ================================
+            Medical medical-term-abbreviations Overlay
+            ================================
+        */
+
+        h4 {
+            margin: 0;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.62);
+        }
+        
+        .modal-dialog {
+            font-family: "Helvtica", Arial, sans-serif;
+            position: relative;
+            margin: 10px auto;
+            padding-bottom: 10px;
+            background: #fafafa;
+            visibility: visible;
+            width: 500px;
+            border-radius: 10px;
+            max-height: 90%;
+            height: 90%;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            max-height: 82%;
+            margin: 0 10px 40px 30px;
+            overflow-y: scroll;
+        }
+
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+            border-radius: 10px;
+            margin: 2px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            border-radius: 15px;
+            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+            background-color: #555;
+        }
+        
+        .modal-header {
+            padding: 30px 30px 15px 30px;
+            position: relative;
+            font-size: 24px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .medical-term-abbreviation,
+        .abbrev-title {
+            margin-left: 30px;
+            float: left;
+        }
+        
+        .medical-title {
+            max-width: 200px;
+            width: 200px;
+        }
+
+        .medical-title, .abbrev-title {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .row {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 3px;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .medical-term {
+            max-width: 200px;
+            width: 200px;
+        }
+        
+        .close {
+            top: 15px;
+            right: 30px;
+            position: absolute;
+            font-size: 44px;
+            color: #6e6e6e;
+            cursor: pointer;
+            transform: rotate(45deg);
+            transition: all .15s ease-in-out;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        .medical-terms-button {
+            padding: 12px 25px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #eeeeee;
+            background: #4A5867;
+            border: 0px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .medical-terms-button:hover {
+            background: #5B6978;
+            color: #fff;
+        }
+
+        @media screen and (max-width: 480px) {
+
+            .modal-header {
+                font-size: 18px;    
+            }
+
+            .modal-dialog {
+                width: 320px;
+            }
+
+            .medical-title, .abbrev-title, .medical-term, .medical-term-abbreviation {
+                max-width: 100px;
+                width: 100px;
+                font-size: 12px;
+            }
+
+            .close {
+                top: 20px;
+                right: 15px;
+                font-size: 32px
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <button class="medical-terms-button">Medical Terms</button>
+    <div class="overlay"></div>
+    <div class="modal">
+        <div class="modal-dialog">
             <div class="modal-header">
                 <h4>Medical Terms &amp; Abbreviations</h4>
-                <span class="close" data-dismiss="modal">×</span>
+                <span class="close">+</span>
             </div>
-            <div class="modal-body">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Search</label>
-                                <input class="form-control ng-pristine ng-valid" ng-model="searchTerm" placeholder="Search List" type="text">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row"><div class="medical-title">
+                                <strong>Medical Term</strong>
+                            </div>
+                            <div class="abbrev-title">
+                                <strong>Abbreviation</strong>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <strong>Medical Term</strong>
-                        </div>
-                        <div class="col-sm-6">
-                            <strong>Abbreviation</strong>
-                        </div>
-                    </div>
-                    <!-- ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">A NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">A NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">A NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">A NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">A POSITIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">A POS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">AB NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">AB NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">AB POSITIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">AB POS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ALLERGIES</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ALGY</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ALLERGY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ALGY</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ALZHEIMER'S DISEASE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">AD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">AMOXICILLIN</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">AMX</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ANAPHYLAXIS</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ANA</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ANTICOAGULANTS</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ANTICOAGULANTS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">APRAXIA OF SPEECH</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">AOS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ASPIRIN ENDUCED RESPIRATORY DISEASE
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">AERD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ASTHMATIC
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ASMA
-</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ATRIAL FIBRILLATION</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">A-FIB or ATRIAL FIB</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ATRIAL FIBRILLATION</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">A-FIB</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ATTENTION DEFICIT DISORDER</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ADD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ATTENTION DEFICIT HYPERACTIVITY DISORDER</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ADHD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">AUTISM SPECTRUM DISORDER
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ASD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">AUTISM
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ASD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">B NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">B NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">B NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">B NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">B POSITIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">B POS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">BLOOD TYPE A</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">BTA</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CATARACT SURGERY
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">LENS IMPLANTS
-</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CEREBRAL PALSY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHIARI MALFORMATION TYPE 1
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CHM T1</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHIARI MALFORMATION TYPE 2
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CHM T2</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHIARI MALFORMATION TYPE 3
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CHM T3</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHRONIC FATIGUE SYNDROME, MYALGIC ENCEPHALOPATHY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CFS/ME</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHRONIC OBSTRUCTIVE PULMONARY DISEASE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">COPD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHRONIC VENOUS DISEASE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CVD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CHRONIC VENOUS INSUFFICIENCY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CVI</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">COCHLEAR IMPLANT
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CI</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CONGESTIVE HEART FAILURE
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CHF</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">CONTINUOUS GLUCOSE MONITOR</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">CGM</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DEFIBRILLATOR	</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ICD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DEPRESSION
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DEP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DIABETES
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DM</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DIABETI TYPE2</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DIABETIC TYPE 2</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DIABETIC TYPE 1</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DIABETIC T1</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DIABETIC TYPE 2</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DIABETIC T2</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DO NOT INTUBATE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DNI</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">DO NOT RESUSCITATE
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">DNR</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">FACTOR V
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">FCTRV</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">FOOD PROTEIN INDUCED ENTEROCOLITIS SYNDROME</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">FPIES</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HARD OF HEARING</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HOH</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HEPATITIS POSITIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HEP POS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HIGH BLOOD PRESSURE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HBP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HIGH FUNCTIONING AUTISM SPECTRUM DISORDER
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HFASD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HORMONE REPLACEMENT THERAPY
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HRT</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HYPERTENSION</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HTN</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">HYPERTROPHIC CARDIOMYOPATHY
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">HCM
-</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">IDIOPATHIC THROMBOCYTOPENIC PURPURA</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ITP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">IMPLANTABLE CARDIOVERTER DEFIBRILLATOR</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ICD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">INCONTINENCE	</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">INCONTINENCE	</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">INTRAVEINOUS</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">IV</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">LATEX ALLERGY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">LA</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">LONG Q-T SYNDROME</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">LQTS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">LOW BACK PAIN</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">LBP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">LOW BLOOD PRESSURE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">LBP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">LOW PULSE RATE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">LPR</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">MAGNETIC RESONANCE IMAGING</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">MRI</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">MALIGNANT HYPERTHERMIA</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">MALIG HYPER ALLERGY</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">MITRA VALVE PROLAPSE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">MVP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">MULTIPLE DRUG ALLERGIES</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">MDA</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">MULTIPLE SCLEROSIS</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">MS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">NO KNOW ALLERGIES
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">NKA</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">NO KNOWN DRUG ALLERGIES</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">NKDA</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">NO MEDICAL HISTORY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">NO MED HX</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">NOT AN ORGAN DONOR</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">NO ORG DON</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">O NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">O NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">O NEGATIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">O NEG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">O POSITIVE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">O POS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ORGAN DONOR</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">ORG DON</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">PENICILLIN</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">PCN</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">POST TRAUMATIC STRESS DISORDER
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">PTSD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">PULMONARY EMBOLISM</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">PE</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">QUADRUPLE BYPASS SURGERY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">QUAD BYPASS SURG</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">REACTION</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">RXN</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">RHEUMATIOD ARTHRITIS/DISEASE
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">RA/RD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">RUNS LOW BLOOD PRESSURE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">RLBP</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">SENSORY PROCESSING DISORDER</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">SPD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">SERVICE DOG
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">SD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">SHORT BOWEL SYNDROME</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">SBS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">SPINAL CORD INJURY</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">SCI</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">SPINAL CORD STIMULATOR
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">SCS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">SUPRAVENTRICULAR TACHYACARDIA
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">SVT</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">TETRALOGY OF FALLOT
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">TET</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">THYROID</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">THY</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">TOTAL HIP REPLACEMENT
-</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">THR</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">TOTAL KNEE REPLACEMENT</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">TKR</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">ULCERATIVE COLITIS</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">UC</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">UPPER RESPIRATORY INFECTION</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">URI</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">VASO-VAGAL SYNCOPE</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">VVGS</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">VENTRICULAR SEPTUM DEFECT</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">VSD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms --><div class="row ng-scope" ng-repeat="term in filteredTerms">
-                        <div class="col-sm-6">
-                            <div ng-bind="term.Name" class="ng-binding">VOCAL CHORD DYSFUNCTION</div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div ng-show="term.Abbreviation!==null" ng-bind="term.Abbreviation" class="ng-binding">VCD</div>
-                            <div ng-hide="term.Abbreviation!==null" class="ng-hide">none</div>
-                        </div>
-                    </div><!-- end ngRepeat: term in filteredTerms -->
-
-                    <div class="row mb-1">
-                        <div class="col-sm-12">
-                            <button type="button" class="btn btn-primary" ng-click="ToggleAddTerm()">
-                                <span ng-hide="showAddTerm" class="">
-                                    <i class="text-danger fa fa-pencil-square-o fa-lg"></i>
-                                </span>
-                                <span ng-show="showAddTerm" class="ng-hide">
-                                    <i class="text-danger fa fa-times-circle fa-lg"></i>
-                                </span>
-                                Suggest an Addition
-                            </button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="alert alert-success text-sm-center success-fade-in thankyou-animate ng-hide" ng-show="showSuccessMedicalMessage">
-                                Thank you for your suggestion!
-                            </div>
-                        </div>
-                        <div class="row ng-pristine ng-valid ng-valid-required ng-hide" ng-show="showAddTerm" ng-form="form.medicalTermForm">
-                            <div class="col-sm-12 ng-hide" ng-show="failureMedicalMessage!==null">
-                                <div class="alert alert-danger ng-binding" ng-bind="failureMedicalMessage"></div>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>
-                                    Medical Term <a class="d-inline-block" pop-over="" data-html="true" data-content="Medical Terms are limited to 1 line and 75 characters." data-placement="top" tabindex="-1" data-original-title="" title="">
-                                        <i class="fa fa-question-circle fa-lg"></i>
-                                    </a>
-                                </label>
-                                <div class="alert alert-danger ng-binding ng-scope ng-hide" ng-show="ctrlModel.$invalid &amp;&amp; ctrlModel.$dirty &amp;&amp; shouldShow">ERROR: Please enter a medical term.</div><input class="form-control ng-isolate-scope ng-pristine ng-valid ng-valid-required" type="text" maxlength="75" name="medical_term" ng-model="addMedicalTerm" validity-icon="" capitalize="" ng-required="showAddTerm" error-text="" error-text-show="form.medicalTermForm.$submitted" style="text-transform: uppercase;"><span class="help-inline ng-binding ng-scope okay" ng-class="{error: addMedicalTermValidityIcon.$invalid, okay: addMedicalTermValidityIcon.$valid}">✓</span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label>
-                                    Abbreviation <a class="d-inline-block" pop-over="" data-content="Abbreviations are limited to 1 line and 20 characters." data-placement="top" tabindex="-1" data-original-title="" title="">
-                                        <i class="fa fa-question-circle fa-lg"></i>
-                                    </a>
-                                </label>
-                                <div class="alert alert-danger ng-binding ng-scope ng-hide" ng-show="ctrlModel.$invalid &amp;&amp; ctrlModel.$dirty &amp;&amp; shouldShow">ERROR: Please enter an abbreviation.</div><input class="form-control ng-isolate-scope ng-pristine ng-valid ng-valid-required" type="text" maxlength="20" name="abbreviation" ng-model="addAbbreviation" validity-icon="" capitalize="" ng-required="showAddTerm" error-text="" error-text-show="form.medicalTermForm.$submitted" style="text-transform: uppercase;"><span class="help-inline ng-binding ng-scope okay" ng-class="{error: addAbbreviationValidityIcon.$invalid, okay: addAbbreviationValidityIcon.$valid}">✓</span>
-                            </div>
-                        </div>
+                        <div class="row"><div><div class="medical-term">A NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">A NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">A NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">A NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">A POSITIVE</div></div>
+                            <div><div class="medical-term-abbreviation">A POS</div></div></div>
+                        <div class="row"><div><div class="medical-term">AB NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">AB NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">AB POSITIVE</div></div>
+                            <div><div class="medical-term-abbreviation">AB POS</div></div></div>
+                        <div class="row"><div><div class="medical-term">ALLERGIES</div></div>
+                            <div><div class="medical-term-abbreviation">ALGY</div></div></div>
+                        <div class="row"><div><div class="medical-term">ALLERGY</div></div>
+                            <div><div class="medical-term-abbreviation">ALGY</div></div></div>
+                        <div class="row"><div><div class="medical-term">ALZHEIMER'S DISEASE</div></div>
+                            <div><div class="medical-term-abbreviation">AD</div></div></div>
+                        <div class="row"><div><div class="medical-term">AMOXICILLIN</div></div>
+                            <div><div class="medical-term-abbreviation">AMX</div></div></div>
+                        <div class="row"><div><div class="medical-term">ANAPHYLAXIS</div></div>
+                            <div><div class="medical-term-abbreviation">ANA</div></div></div>
+                        <div class="row"><div><div class="medical-term">ANTICOAGULANTS</div></div>
+                            <div><div class="medical-term-abbreviation">ANTICOAGULANTS</div></div></div>
+                        <div class="row"><div><div class="medical-term">APRAXIA OF SPEECH</div></div>
+                            <div><div class="medical-term-abbreviation">AOS</div></div></div>
+                        <div class="row"><div><div class="medical-term">ASPIRIN ENDUCED RESPIRATORY DISEASE</div></div>
+                            <div><div class="medical-term-abbreviation">AERD</div></div></div>
+                        <div class="row"><div><div class="medical-term">ASTHMATIC</div></div>
+                            <div><div class="medical-term-abbreviation">ASMA</div></div></div>
+                        <div class="row"><div><div class="medical-term">ATRIAL FIBRILLATION</div></div>
+                            <div><div class="medical-term-abbreviation">A-FIB or ATRIAL FIB</div></div></div>
+                        <div class="row"><div><div class="medical-term">ATRIAL FIBRILLATION</div></div>
+                            <div><div class="medical-term-abbreviation">A-FIB</div></div></div>
+                        <div class="row"><div><div class="medical-term">ATTENTION DEFICIT DISORDER</div></div>
+                            <div><div class="medical-term-abbreviation">ADD</div></div></div>
+                        <div class="row"><div><div class="medical-term">ATTENTION DEFICIT HYPERACTIVITY DISORDER</div></div>
+                            <div><div class="medical-term-abbreviation">ADHD</div></div></div>
+                        <div class="row"><div><div class="medical-term">AUTISM SPECTRUM DISORDER</div></div>
+                            <div><div class="medical-term-abbreviation">ASD</div></div></div>
+                        <div class="row"><div><div class="medical-term">AUTISM</div></div>
+                            <div><div class="medical-term-abbreviation">ASD</div></div></div>
+                        <div class="row"><div><div class="medical-term">B NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">B NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">B NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">B NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">B POSITIVE</div></div>
+                            <div><div class="medical-term-abbreviation">B POS</div></div></div>
+                        <div class="row"><div><div class="medical-term">BLOOD TYPE A</div></div>
+                            <div><div class="medical-term-abbreviation">BTA</div></div></div>
+                        <div class="row"><div><div class="medical-term">CATARACT SURGERY</div></div>
+                            <div><div class="medical-term-abbreviation">LENS IMPLANTS</div></div></div>
+                        <div class="row"><div><div class="medical-term">CEREBRAL PALSY</div></div>
+                            <div><div class="medical-term-abbreviation">CP</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHIARI MALFORMATION TYPE 1</div></div>
+                            <div><div class="medical-term-abbreviation">CHM T1</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHIARI MALFORMATION TYPE 2</div></div>
+                            <div><div class="medical-term-abbreviation">CHM T2</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHIARI MALFORMATION TYPE 3</div></div>
+                            <div><div class="medical-term-abbreviation">CHM T3</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHRONIC FATIGUE SYNDROME, MYALGIC ENCEPHALOPATHY</div></div>
+                            <div><div class="medical-term-abbreviation">CFS/ME</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHRONIC OBSTRUCTIVE PULMONARY DISEASE</div></div>
+                            <div><div class="medical-term-abbreviation">COPD</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHRONIC VENOUS DISEASE</div></div>
+                            <div><div class="medical-term-abbreviation">CVD</div></div></div>
+                        <div class="row"><div><div class="medical-term">CHRONIC VENOUS INSUFFICIENCY</div></div>
+                            <div><div class="medical-term-abbreviation">CVI</div></div></div>
+                        <div class="row"><div><div class="medical-term">COCHLEAR IMPLANT</div></div>
+                            <div><div class="medical-term-abbreviation">CI</div></div></div>
+                        <div class="row"><div><div class="medical-term">CONGESTIVE HEART FAILURE</div></div>
+                            <div><div class="medical-term-abbreviation">CHF</div></div></div>
+                        <div class="row"><div><div class="medical-term">CONTINUOUS GLUCOSE MONITOR</div></div>
+                            <div><div class="medical-term-abbreviation">CGM</div></div></div>
+                        <div class="row"><div><div class="medical-term">DEFIBRILLATOR </div></div>
+                            <div><div class="medical-term-abbreviation">ICD</div></div></div>
+                        <div class="row"><div><div class="medical-term">DEPRESSION</div></div>
+                            <div><div class="medical-term-abbreviation">DEP</div></div></div>
+                        <div class="row"><div><div class="medical-term">DIABETES</div></div>
+                            <div><div class="medical-term-abbreviation">DM</div></div></div>
+                        <div class="row"><div><div class="medical-term">DIABETI TYPE2</div></div>
+                            <div><div class="medical-term-abbreviation">DIABETIC TYPE 2</div></div></div>
+                        <div class="row"><div><div class="medical-term">DIABETIC TYPE 1</div></div>
+                            <div><div class="medical-term-abbreviation">DIABETIC T1</div></div></div>
+                        <div class="row"><div><div class="medical-term">DIABETIC TYPE 2</div></div>
+                            <div><div class="medical-term-abbreviation">DIABETIC T2</div></div></div>
+                        <div class="row"><div><div class="medical-term">DO NOT INTUBATE</div></div>
+                            <div><div class="medical-term-abbreviation">DNI</div></div></div>
+                        <div class="row"><div><div class="medical-term">DO NOT RESUSCITATE</div></div>
+                            <div><div class="medical-term-abbreviation">DNR</div></div></div>
+                        <div class="row"><div><div class="medical-term">FACTOR V</div></div>
+                            <div><div class="medical-term-abbreviation">FCTRV</div></div></div>
+                        <div class="row"><div><div class="medical-term">FOOD PROTEIN INDUCED ENTEROCOLITIS SYNDROME</div></div>
+                            <div><div class="medical-term-abbreviation">FPIES</div></div></div>
+                        <div class="row"><div><div class="medical-term">HARD OF HEARING</div></div>
+                            <div><div class="medical-term-abbreviation">HOH</div></div></div>
+                        <div class="row"><div><div class="medical-term">HEPATITIS POSITIVE</div></div>
+                            <div><div class="medical-term-abbreviation">HEP POS</div></div></div>
+                        <div class="row"><div><div class="medical-term">HIGH BLOOD PRESSURE</div></div>
+                            <div><div class="medical-term-abbreviation">HBP</div></div></div>
+                        <div class="row"><div><div class="medical-term">HIGH FUNCTIONING AUTISM SPECTRUM DISORDER</div></div>
+                            <div><div class="medical-term-abbreviation">HFASD</div></div></div>
+                        <div class="row"><div><div class="medical-term">HORMONE REPLACEMENT THERAPY</div></div>
+                            <div><div class="medical-term-abbreviation">HRT</div></div></div>
+                        <div class="row"><div><div class="medical-term">HYPERTENSION</div></div>
+                            <div><div class="medical-term-abbreviation">HTN</div></div></div>
+                        <div class="row"><div><div class="medical-term">HYPERTROPHIC CARDIOMYOPATHY</div></div>
+                            <div><div class="medical-term-abbreviation">HCM</div></div></div>
+                        <div class="row"><div><div class="medical-term">IDIOPATHIC THROMBOCYTOPENIC PURPURA</div></div>
+                            <div><div class="medical-term-abbreviation">ITP</div></div></div>
+                        <div class="row"><div><div class="medical-term">IMPLANTABLE CARDIOVERTER DEFIBRILLATOR</div></div>
+                            <div><div class="medical-term-abbreviation">ICD</div></div></div>
+                        <div class="row"><div><div class="medical-term">INCONTINENCE </div></div>
+                            <div><div class="medical-term-abbreviation">INCONTINENCE </div></div></div>
+                        <div class="row"><div><div class="medical-term">INTRAVEINOUS</div></div>
+                            <div><div class="medical-term-abbreviation">IV</div></div></div>
+                        <div class="row"><div><div class="medical-term">LATEX ALLERGY</div></div>
+                            <div><div class="medical-term-abbreviation">LA</div></div></div>
+                        <div class="row"><div><div class="medical-term">LONG Q-T SYNDROME</div></div>
+                            <div><div class="medical-term-abbreviation">LQTS</div></div></div>
+                        <div class="row"><div><div class="medical-term">LOW BACK PAIN</div></div>
+                            <div><div class="medical-term-abbreviation">LBP</div></div></div>
+                        <div class="row"><div><div class="medical-term">LOW BLOOD PRESSURE</div></div>
+                            <div><div class="medical-term-abbreviation">LBP</div></div></div>
+                        <div class="row"><div><div class="medical-term">LOW PULSE RATE</div></div>
+                            <div><div class="medical-term-abbreviation">LPR</div></div></div>
+                        <div class="row"><div><div class="medical-term">MAGNETIC RESONANCE IMAGING</div></div>
+                            <div><div class="medical-term-abbreviation">MRI</div></div></div>
+                        <div class="row"><div><div class="medical-term">MALIGNANT HYPERTHERMIA</div></div>
+                            <div><div class="medical-term-abbreviation">MALIG HYPER ALLERGY</div></div></div>
+                        <div class="row"><div><div class="medical-term">MITRA VALVE PROLAPSE</div></div>
+                            <div><div class="medical-term-abbreviation">MVP</div></div></div>
+                        <div class="row"><div><div class="medical-term">MULTIPLE DRUG ALLERGIES</div></div>
+                            <div><div class="medical-term-abbreviation">MDA</div></div></div>
+                        <div class="row"><div><div class="medical-term">MULTIPLE SCLEROSIS</div></div>
+                            <div><div class="medical-term-abbreviation">MS</div></div></div>
+                        <div class="row"><div><div class="medical-term">NO KNOW ALLERGIES</div></div>
+                            <div><div class="medical-term-abbreviation">NKA</div></div></div>
+                        <div class="row"><div><div class="medical-term">NO KNOWN DRUG ALLERGIES</div></div>
+                            <div><div class="medical-term-abbreviation">NKDA</div></div></div>
+                        <div class="row"><div><div class="medical-term">NO MEDICAL HISTORY</div></div>
+                            <div><div class="medical-term-abbreviation">NO MED HX</div></div></div>
+                        <div class="row"><div><div class="medical-term">NOT AN ORGAN DONOR</div></div>
+                            <div><div class="medical-term-abbreviation">NO ORG DON</div></div></div>
+                        <div class="row"><div><div class="medical-term">O NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">O NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">O NEGATIVE</div></div>
+                            <div><div class="medical-term-abbreviation">O NEG</div></div></div>
+                        <div class="row"><div><div class="medical-term">O POSITIVE</div></div>
+                            <div><div class="medical-term-abbreviation">O POS</div></div></div>
+                        <div class="row"><div><div class="medical-term">ORGAN DONOR</div></div>
+                            <div><div class="medical-term-abbreviation">ORG DON</div></div></div>
+                        <div class="row"><div><div class="medical-term">PENICILLIN</div></div>
+                            <div><div class="medical-term-abbreviation">PCN</div></div></div>
+                        <div class="row"><div><div class="medical-term">POST TRAUMATIC STRESS DISORDER</div></div>
+                            <div><div class="medical-term-abbreviation">PTSD</div></div></div>
+                        <div class="row"><div><div class="medical-term">PULMONARY EMBOLISM</div></div>
+                            <div><div class="medical-term-abbreviation">PE</div></div></div>
+                        <div class="row"><div><div class="medical-term">QUADRUPLE BYPASS SURGERY</div></div>
+                            <div><div class="medical-term-abbreviation">QUAD BYPASS SURG</div></div></div>
+                        <div class="row"><div><div class="medical-term">REACTION</div></div>
+                            <div><div class="medical-term-abbreviation">RXN</div></div></div>
+                        <div class="row"><div><div class="medical-term">RHEUMATIOD ARTHRITIS/DISEASE</div></div>
+                            <div><div class="medical-term-abbreviation">RA/RD</div></div></div>
+                        <div class="row"><div><div class="medical-term">RUNS LOW BLOOD PRESSURE</div></div>
+                            <div><div class="medical-term-abbreviation">RLBP</div></div></div>
+                        <div class="row"><div><div class="medical-term">SENSORY PROCESSING DISORDER</div></div>
+                            <div><div class="medical-term-abbreviation">SPD</div></div></div>
+                        <div class="row"><div><div class="medical-term">SERVICE DOG</div></div>
+                            <div><div class="medical-term-abbreviation">SD</div></div></div>
+                        <div class="row"><div><div class="medical-term">SHORT BOWEL SYNDROME</div></div>
+                            <div><div class="medical-term-abbreviation">SBS</div></div></div>
+                        <div class="row"><div><div class="medical-term">SPINAL CORD INJURY</div></div>
+                            <div><div class="medical-term-abbreviation">SCI</div></div></div>
+                        <div class="row"><div><div class="medical-term">SPINAL CORD STIMULATOR</div></div>
+                            <div><div class="medical-term-abbreviation">SCS</div></div></div>
+                        <div class="row"><div><div class="medical-term">SUPRAVENTRICULAR TACHYACARDIA</div></div>
+                            <div><div class="medical-term-abbreviation">SVT</div></div></div>
+                        <div class="row"><div><div class="medical-term">TETRALOGY OF FALLOT</div></div>
+                            <div><div class="medical-term-abbreviation">TET</div></div></div>
+                        <div class="row"><div><div class="medical-term">THYROID</div></div>
+                            <div><div class="medical-term-abbreviation">THY</div></div></div>
+                        <div class="row"><div><div class="medical-term">TOTAL HIP REPLACEMENT</div></div>
+                            <div><div class="medical-term-abbreviation">THR</div></div></div>
+                        <div class="row"><div><div class="medical-term">TOTAL KNEE REPLACEMENT</div></div>
+                            <div><div class="medical-term-abbreviation">TKR</div></div></div>
+                        <div class="row"><div><div class="medical-term">ULCERATIVE COLITIS</div></div>
+                            <div><div class="medical-term-abbreviation">UC</div></div></div>
+                        <div class="row"><div><div class="medical-term">UPPER RESPIRATORY INFECTION</div></div>
+                            <div><div class="medical-term-abbreviation">URI</div></div></div>
+                        <div class="row"><div><div class="medical-term">VASO-VAGAL SYNCOPE</div></div>
+                            <div><div class="medical-term-abbreviation">VVGS</div></div></div>
+                        <div class="row"><div><div class="medical-term">VENTRICULAR SEPTUM DEFECT</div></div>
+                            <div><div class="medical-term-abbreviation">VSD</div></div></div>
+                        <div class="row"><div><div class="medical-term">VOCAL CHORD DYSFUNCTION</div></div>
+                            <div><div class="medical-term-abbreviation">VCD</div></div></div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary ng-hide" ng-click="Insert()" ng-show="showAddTerm">Submit</button>
-            </div>
         </div>
     </div>
-</div>
+    <script>
+            $('.close').on('click', function () {
+                $('.overlay').fadeOut(150);
+                $('.modal-dialog').fadeOut(150);
+            });
+
+            $('.overlay').on('click', function () {
+                $('.overlay').fadeOut(150);
+                $('.modal-dialog').fadeOut(150);
+            });
+
+            $('.medical-terms-button').on('click', function () {
+                $('.overlay').fadeIn(150);
+                $('.modal-dialog').fadeIn(150);
+            });
+    </script>
+</body>
+
+</html>

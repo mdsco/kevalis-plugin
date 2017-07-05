@@ -27,21 +27,3 @@
         <p><span style="margin-right: 9px;vertical-align: middle;"><img draggable="false" class="emoji" alt="❌" src="https://s.w.org/images/core/emoji/2.2.1/svg/274c.svg"></span>White Ink</p>
         <p style="margin-bottom: 18px;"><span style="margin-right: 9px;vertical-align: middle;"><img draggable="false" class="emoji" alt="❌" src="https://s.w.org/images/core/emoji/2.2.1/svg/274c.svg"></span>Very Pixelated Images</p>
     </div><a id="close-how-it-works" style="cursor:pointer;left: 18px;top: 18px;position: absolute;font-weight: bold;font-size:32px;color:white;">✕x</a></div>
-
-
-  function updateTipsPopupContent () {
-            $('div[data-module]').on('click', function () {
-                var module = $(this).attr("data-module");
-                if ( module === 'images') {
-                    $("#tips-popup p").text('Helpful Image Tips');
-                } else if (module === "text") {
-                    $("#tips-popup p").text('Helpful Text Tips');
-                } else if (module === "designs") {
-                    $("#tips-popup p").text('Helpful Custom Design Tips');
-                } else if (module === "names-numbers") {
-                    $("#tips-popup p").text('Helpful Names & names-numbers Tips');
-                } else if (module === "drawing") {
-                    $("#tips-popup p").text('Helpful Drawing Tips');
-                }
-            });
-        }
