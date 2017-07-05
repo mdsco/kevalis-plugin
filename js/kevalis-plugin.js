@@ -1,20 +1,20 @@
 ( function( $ ) {
 
-    var tipsOverlayHTML = '<div id="how-it-works-wrapper">'
+    var tipsOverlayHTML = '<div id="instructions-wrapper">'
                         + '<div class="closeX">✕</div>'
-                        + '<div class="how-it-works-container">'
+                        + '<div class="instruction-1-container">'
                           + '<img src="/wordpress/wp-content/plugins/kevalis-plugin/img/white-arrow-left.png">'
-                          + '<div class="instruction-1-container">'
-                            + '<h3 class="how-it-works-number-1">1</h3>'
+                          + '<div class="instruction-1">'
+                            + '<h3 class="instructions-number-1">1</h3>'
                             + '<p class="instructions-text">Upload a design,'
                                 + '<span class="instructions-text-line-2">create text, or freehand</span>'
                             + '</p>'
                           + '</div>'
                         + '</div>'
                           + '<div class="instruction-2-container">'
-                            + '<div class="instructions-text-wrapper">'
+                            + '<div class="instructions-2-text-wrapper">'
                               + '<img src="/wordpress/wp-content/plugins/kevalis-plugin/img/white-arrow-right.png">'
-                              + '<h3 class="how-it-works-number-2">2</h3>'
+                              + '<h3 class="instructions-number-2">2</h3>'
                               + '<p class="instructions-text">Manage layers, undo,'
                                 + '<span> save and more</span>'
                               + '</p>'
@@ -36,7 +36,7 @@
                 + '<h4>Medical Terms &amp; Abbreviations</h4>'
                 + '<span class="close">+</span>'
             + ' </div>'
-            + ' <div class="modal-content">'
+            + ' <div class="modal-content-block">'
                + ' <div class="modal-body">'
                    + ' <div class="container-fluid">'
                        + ' <div class="row"><div class="medical-title">'
@@ -259,7 +259,7 @@
 
     function loadCssFile(filename) {
         var fileref, filetype = filename.split('.').pop();
-        if (filetype === "css") { 
+        if (filetype === "css") {
             fileref = document.createElement("link");
             fileref.setAttribute("rel", "stylesheet");
             fileref.setAttribute("type", "text/css");
@@ -268,15 +268,15 @@
         if (typeof fileref != "undefined") {
             document.getElementsByTagName("head")[0].appendChild(fileref);
         }
-}
+    }
 
     function Start() {
         'use strict';
 
         function addImageTipsPopup() {
 
-            $('.fpd-content').after('<div id="tips-popup">+ '
-                '<p>Helpful Text Tips Here</p> '
+            $('.fpd-content').after('<div id="tips-popup">'
+                + '<p>Helpful Text Tips Here</p> '
                 + '<div class="closeX">✕</div>'
                 + '</div>');
 
@@ -346,18 +346,18 @@
 
         function addTipsOverlay() {
             $('.fpd-main-wrapper').append(tipsOverlayHTML);
-            $('#how-it-works-wrapper').on('click', function () {
-                if ($('#how-it-works-wrapper').css('visibility') === 'visible') {
-                    $('#how-it-works-wrapper').css('visibility', 'hidden');
+            $('#instructions-wrapper').on('click', function () {
+                if ($('#instructions-wrapper').css('visibility') === 'visible') {
+                    $('#instructions-wrapper').css('visibility', 'hidden');
                 }
             });
         }
 
         var toggleOverlay = function () {
-            if($('#how-it-works-wrapper').css('visibility') === 'visible') {
-                $('#how-it-works-wrapper').css('visibility', 'hidden');
+            if($('#instructions-wrapper').css('visibility') === 'visible') {
+                $('#instructions-wrapper').css('visibility', 'hidden');
             } else {
-                $('#how-it-works-wrapper').css('visibility', 'visible');
+                $('#instructions-wrapper').css('visibility', 'visible');
             }
         };
 
@@ -368,6 +368,32 @@
             $('.tips-overlay-link').on('click', toggleOverlay);
         };
 
+        function addMedicalTermsOverlayAndButton(){
+            $(".fpd-module.fpd-active").append(medicalTermsButton);
+            $('body').prepend(medicalTermsOverlay);
+            $('body').prepend(medicalTermsModal);
+        };
+
+
+        function toggleMedicalTermsOverlay(){
+            $('.close').on('click', function () {
+                $('.overlay').fadeOut(150);
+                $('.modal').fadeOut(150);
+            });
+
+            $('.modal').on('click', function () {
+                $('.overlay').fadeOut(150);
+                $('.modal').fadeOut(150);
+            });
+
+            $('.medical-terms-button').on('click', function () {
+                $('.overlay').fadeIn(150);
+                $('.modal').fadeIn(150);
+                // $('.modal').css('display', 'block');
+
+            });
+        }
+
         window.ImagesModule.imageTipsHelper = function () {
             addImageTips();
             updateTipsLinkText();
@@ -377,6 +403,8 @@
         window.FancyProductDesigner.overlayHelper = function () {
             addShowTipsOverlayLink();
             addTipsOverlay();
+            addMedicalTermsOverlayAndButton();
+            toggleMedicalTermsOverlay();
         };
 
     }

@@ -6,7 +6,7 @@ h1 {
     margin: 0;
 }
 
-.how-it-works-container {
+.instruction-1-container {
     position: absolute;
     top: 12%;
     color: white;
@@ -19,19 +19,19 @@ h1 {
     height: 200px;
 }
 
-.how-it-works-container img {
+.instruction-1-container img {
     float: left;
     margin: 0;
     width: 150px;
     display: block;
 }
 
-.how-it-works-number-1 {
+.instructions-number-1 {
     margin-top: 0;
     text-shadow: -3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
-.how-it-works-number-2 {
+.instructions-number-2 {
     margin-top: 0;
     text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
 }
@@ -47,7 +47,7 @@ h1 {
 }
 
 .quick-tips-wrapper p {
-    text-shadow: 2px 4px 10px rgba(0,0,0,0.7);
+    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.7);
 }
 
 .quick-tips-wrapper .text-top {
@@ -66,7 +66,7 @@ h1 {
     text-shadow: -3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
-.instruction-1-container {
+.instruction-1 {
     position: absolute;
     left: 10px;
     top: 45px;
@@ -86,28 +86,27 @@ h1 {
     height: 200px;
 }
 
-.instructions-text-wrapper {
+.instructions-2-text-wrapper {
     position: absolute;
     right: 0;
     top: 25px;
     min-width: 240px;
 }
 
-.instructions-text-wrapper img {
-    /*position: absolute;*/
+.instructions-2-text-wrapper img {
     margin-left: 100px;
     right: 6px;
     width: 150px;
     display: block;
 }
 
-.instructions-text-wrapper .instructions-text {
+.instructions-2-text-wrapper .instructions-text {
     margin-bottom: 0;
     display: block;
     text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
-.instructions-text-wrapper .instructions-text span {
+.instructions-2-text-wrapper .instructions-text span {
     margin-top: 5px;
     display: block;
     text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
@@ -172,7 +171,7 @@ h1 {
     color: #000;
 }
 
-#how-it-works-wrapper {
+#instructions-wrapper {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -192,6 +191,7 @@ h1 {
     cursor: pointer;
 }
 
+
 /*
     ================================
     Medical medical-term-abbreviations Overlay
@@ -202,13 +202,30 @@ h4 {
     margin: 0;
 }
 
-.overlay {
+
+/*.overlay {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.62);
+    z-index: 1;
+}*/
+
+.overlay {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: black;
+    opacity: 0.7;
+    z-index: 1000001;
+}
+
+.modal {
+    top: 25px;
+    z-index: 1000002;
 }
 
 .modal-dialog {
@@ -225,10 +242,14 @@ h4 {
     opacity: 1;
 }
 
-.modal-content {
+.modal-content-block {
     max-height: 82%;
     margin: 0 10px 40px 30px;
     overflow-y: scroll;
+}
+
+.modal-body {
+    border: none;
 }
 
 ::-webkit-scrollbar {
@@ -262,7 +283,8 @@ h4 {
     width: 200px;
 }
 
-.medical-title, .abbrev-title {
+.medical-title,
+.abbrev-title {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -307,6 +329,9 @@ h4 {
     border: 0px;
     cursor: pointer;
     outline: none;
+    position: absolute;
+    bottom: 80px;
+    left: 50px;
 }
 
 .medical-terms-button:hover {
@@ -315,24 +340,45 @@ h4 {
 }
 
 @media screen and (max-width: 480px) {
-
     .modal-header {
-        font-size: 18px;    
+        font-size: 18px;
     }
-
     .modal-dialog {
         width: 320px;
     }
-
-    .medical-title, .abbrev-title, .medical-term, .medical-term-abbreviation {
+    .medical-title,
+    .abbrev-title,
+    .medical-term,
+    .medical-term-abbreviation {
         max-width: 100px;
         width: 100px;
         font-size: 12px;
     }
-
     .close {
         top: 20px;
         right: 15px;
         font-size: 32px
     }
+    .instruction-1-container {
+        top: 6%;
+        left: 3%;
+    }
+    .instructions-text {
+        font-size: 12px;
+    }
+    .instruction-1-container img {
+        transform: rotate(110deg) scale(1, -1);
+    }
+    .instruction-2-container {
+        top: 0;        
+    }
+    .instructions-2-text-wrapper {
+        top: 5px;        
+    }
+    .instructions-2-text-wrapper img {
+        transform: rotate(15deg);
+        position: relative;
+        top: 12px;
+    }
+
 }
