@@ -1,293 +1,83 @@
 ( function( $ ) {
 
     var tipsOverlayHTML = '<div id="instructions-wrapper">'
-                        + '<div class="closeX">✕</div>'
-                        + '<div class="instruction-1-container">'
-                          + '<img src="/wordpress/wp-content/plugins/kevalis-plugin/img/white-arrow-left.png">'
-                          + '<div class="instruction-1">'
-                            + '<h3 class="instructions-number-1">1</h3>'
-                            + '<p class="instructions-text">Upload a design,'
-                                + '<span class="instructions-text-line-2">create text, or freehand</span>'
-                            + '</p>'
-                          + '</div>'
-                        + '</div>'
-                          + '<div class="instruction-2-container">'
-                            + '<div class="instructions-2-text-wrapper">'
-                              + '<img src="/wordpress/wp-content/plugins/kevalis-plugin/img/white-arrow-right.png">'
-                              + '<h3 class="instructions-number-2">2</h3>'
-                              + '<p class="instructions-text">Manage layers, undo,'
-                                + '<span> save and more</span>'
-                              + '</p>'
-                          + '</div>'
-                        + '</div>'
-                        + '<div class="quick-tips-wrapper">'
-                          + '<p class="text-top">Quick tips</p>'
-                          + '<p>to get started</p>'
-                        + '</div>'
-                    + '</div>';
+                            + '<div id="quickTipsCloseX">+</div>'
+                            + '<div class="instruction-1-container">'
+                            + '<img src="/wp-content/plugins/kevalis-plugin/img/white-arrow-left.png">'
+                              + '<div class="instruction-1">'
+                                + '<h3 class="instructions-number-1">1</h3>'
+                                + '<p class="instructions-text">Upload a design,'
+                                    + '<span class="instructions-text-line-2">create text, or freehand</span>'
+                                + '</p>'
+                              + '</div>'
+                            + '</div>'
+                              + '<div class="instruction-2-container">'
+                                + '<div class="instructions-2-text-wrapper">'
+                                  + '<img src="/wp-content/plugins/kevalis-plugin/img/white-arrow-right.png">'
+                                  + '<h3 class="instructions-number-2">2</h3>'
+                                  + '<p class="instructions-text">Manage layers, undo,'
+                                    + '<span> save and more</span>'
+                                  + '</p>'
+                              + '</div>'
+                            + '</div>'
+                            + '<div class="quick-tips-wrapper">'
+                              + '<p class="text-top">Quick tips</p>'
+                              + '<p>to get started</p>'
+                            + '</div>'
+                        + '</div>';
 
     var medicalTermsButton = '<button class="medical-terms-button">Medical Terms</button>';
 
-    var medicalTermsOverlay = '<div class="overlay"></div>';
+    var medicalTermsOverlay = '<div id="kv_medical_tips_overlay"></div>';
 
-    var medicalTermsModal = '<div class="modal">'
-        + ' <div class="modal-dialog">'
-            + ' <div class="modal-header">'
-                + '<h4>Medical Terms &amp; Abbreviations</h4>'
-                + '<span class="close">+</span>'
-            + ' </div>'
-            + ' <div class="modal-content-block">'
-               + ' <div class="modal-body">'
-                   + ' <div class="container-fluid">'
-                       + ' <div class="row"><div class="medical-title">'
-                                + '<strong>Medical Term</strong>'
-                           + '</div>'
-                           + ' <div class="abbrev-title">'
-                                + ' <strong>Abbreviation</strong>'
-                           + ' </div>'
-                       + ' </div>'
-                       + ' <div class="row"><div><div class="medical-term">A NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">A NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">A NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">A NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">A POSITIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">A POS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">AB NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">AB NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">AB POSITIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">AB POS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ALLERGIES</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ALGY</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ALLERGY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ALGY</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ALZHEIMER\'S DISEASE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">AD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">AMOXICILLIN</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">AMX</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ANAPHYLAXIS</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ANA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ANTICOAGULANTS</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ANTICOAGULANTS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">APRAXIA OF SPEECH</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">AOS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ASPIRIN ENDUCED RESPIRATORY DISEASE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">AERD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ASTHMATIC</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ASMA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ATRIAL FIBRILLATION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">A-FIB or ATRIAL FIB</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ATRIAL FIBRILLATION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">A-FIB</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ATTENTION DEFICIT DISORDER</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ADD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ATTENTION DEFICIT HYPERACTIVITY DISORDER</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ADHD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">AUTISM SPECTRUM DISORDER</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ASD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">AUTISM</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ASD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">B NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">B NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">B NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">B NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">B POSITIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">B POS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">BLOOD TYPE A</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">BTA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CATARACT SURGERY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">LENS IMPLANTS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CEREBRAL PALSY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHIARI MALFORMATION TYPE 1</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CHM T1</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHIARI MALFORMATION TYPE 2</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CHM T2</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHIARI MALFORMATION TYPE 3</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CHM T3</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHRONIC FATIGUE SYNDROME, MYALGIC ENCEPHALOPATHY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CFS/ME</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHRONIC OBSTRUCTIVE PULMONARY DISEASE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">COPD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHRONIC VENOUS DISEASE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CVD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CHRONIC VENOUS INSUFFICIENCY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CVI</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">COCHLEAR IMPLANT</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CI</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CONGESTIVE HEART FAILURE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CHF</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">CONTINUOUS GLUCOSE MONITOR</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">CGM</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DEFIBRILLATOR </div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ICD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DEPRESSION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DEP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DIABETES</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DM</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DIABETI TYPE2</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DIABETIC TYPE 2</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DIABETIC TYPE 1</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DIABETIC T1</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DIABETIC TYPE 2</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DIABETIC T2</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DO NOT INTUBATE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DNI</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">DO NOT RESUSCITATE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">DNR</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">FACTOR V</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">FCTRV</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">FOOD PROTEIN INDUCED ENTEROCOLITIS SYNDROME</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">FPIES</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HARD OF HEARING</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HOH</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HEPATITIS POSITIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HEP POS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HIGH BLOOD PRESSURE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HBP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HIGH FUNCTIONING AUTISM SPECTRUM DISORDER</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HFASD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HORMONE REPLACEMENT THERAPY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HRT</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HYPERTENSION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HTN</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">HYPERTROPHIC CARDIOMYOPATHY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">HCM</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">IDIOPATHIC THROMBOCYTOPENIC PURPURA</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ITP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">IMPLANTABLE CARDIOVERTER DEFIBRILLATOR</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ICD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">INCONTINENCE </div></div>'
-                           + ' <div><div class="medical-term-abbreviation">INCONTINENCE </div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">INTRAVEINOUS</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">IV</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">LATEX ALLERGY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">LA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">LONG Q-T SYNDROME</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">LQTS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">LOW BACK PAIN</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">LBP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">LOW BLOOD PRESSURE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">LBP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">LOW PULSE RATE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">LPR</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">MAGNETIC RESONANCE IMAGING</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">MRI</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">MALIGNANT HYPERTHERMIA</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">MALIG HYPER ALLERGY</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">MITRA VALVE PROLAPSE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">MVP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">MULTIPLE DRUG ALLERGIES</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">MDA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">MULTIPLE SCLEROSIS</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">MS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">NO KNOW ALLERGIES</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">NKA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">NO KNOWN DRUG ALLERGIES</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">NKDA</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">NO MEDICAL HISTORY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">NO MED HX</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">NOT AN ORGAN DONOR</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">NO ORG DON</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">O NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">O NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">O NEGATIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">O NEG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">O POSITIVE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">O POS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ORGAN DONOR</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">ORG DON</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">PENICILLIN</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">PCN</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">POST TRAUMATIC STRESS DISORDER</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">PTSD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">PULMONARY EMBOLISM</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">PE</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">QUADRUPLE BYPASS SURGERY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">QUAD BYPASS SURG</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">REACTION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">RXN</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">RHEUMATIOD ARTHRITIS/DISEASE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">RA/RD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">RUNS LOW BLOOD PRESSURE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">RLBP</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">SENSORY PROCESSING DISORDER</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">SPD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">SERVICE DOG</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">SD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">SHORT BOWEL SYNDROME</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">SBS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">SPINAL CORD INJURY</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">SCI</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">SPINAL CORD STIMULATOR</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">SCS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">SUPRAVENTRICULAR TACHYACARDIA</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">SVT</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">TETRALOGY OF FALLOT</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">TET</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">THYROID</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">THY</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">TOTAL HIP REPLACEMENT</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">THR</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">TOTAL KNEE REPLACEMENT</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">TKR</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">ULCERATIVE COLITIS</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">UC</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">UPPER RESPIRATORY INFECTION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">URI</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">VASO-VAGAL SYNCOPE</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">VVGS</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">VENTRICULAR SEPTUM DEFECT</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">VSD</div></div></div>'
-                       + ' <div class="row"><div><div class="medical-term">VOCAL CHORD DYSFUNCTION</div></div>'
-                           + ' <div><div class="medical-term-abbreviation">VCD</div></div></div>'
-                    + '</div>'
-                + '</div>'
-            + '</div>'
-        + '</div>'
-    + '</div>';
+    var medicalTermsArray = [{"term":"A NEGATIVE","abbreviation":"A NEG"},{"term":"A NEGATIVE","abbreviation":"A NEG"},{"term":"A POSITIVE","abbreviation":"A POS"},{"term":"AB NEGATIVE","abbreviation":"AB NEG"},{"term":"AB POSITIVE","abbreviation":"AB POS"},{"term":"ALLERGIES","abbreviation":"ALGY"},{"term":"ALLERGY","abbreviation":"ALGY"},{"term":"ALZHEIMER\'S DISEASE","abbreviation":"AD"},{"term":"AMOXICILLIN","abbreviation":"AMX"},{"term":"ANAPHYLAXIS","abbreviation":"ANA"},{"term":"ANTICOAGULANTS","abbreviation":"ANTICOAGULANTS"},{"term":"APRAXIA OF SPEECH","abbreviation":"AOS"},{"term":"ASPIRIN ENDUCED RESPIRATORY DISEASE","abbreviation":"AERD"},{"term":"ASTHMATIC","abbreviation":"ASMA"},{"term":"ATRIAL FIBRILLATION","abbreviation":"A-FIB or ATRIAL FIB"},{"term":"ATRIAL FIBRILLATION","abbreviation":"A-FIB"},{"term":"ATTENTION DEFICIT DISORDER","abbreviation":"ADD"},{"term":"ATTENTION DEFICIT HYPERACTIVITY DISORDER","abbreviation":"ADHD"},{"term":"AUTISM SPECTRUM DISORDER","abbreviation":"ASD"},{"term":"AUTISM","abbreviation":"ASD"},{"term":"B NEGATIVE","abbreviation":"B NEG"},{"term":"B NEGATIVE","abbreviation":"B NEG"},{"term":"B POSITIVE","abbreviation":"B POS"},{"term":"BLOOD TYPE A","abbreviation":"BTA"},{"term":"CATARACT SURGERY","abbreviation":"LENS IMPLANTS"},{"term":"CEREBRAL PALSY","abbreviation":"CP"},{"term":"CHIARI MALFORMATION TYPE 1","abbreviation":"CHM T1"},{"term":"CHIARI MALFORMATION TYPE 2","abbreviation":"CHM T2"},{"term":"CHIARI MALFORMATION TYPE 3","abbreviation":"CHM T3"},{"term":"CHRONIC FATIGUE SYNDROME, MYALGIC ENCEPHALOPATHY","abbreviation":"CFS/ME"},{"term":"CHRONIC OBSTRUCTIVE PULMONARY DISEASE","abbreviation":"COPD"},{"term":"CHRONIC VENOUS DISEASE","abbreviation":"CVD"},{"term":"CHRONIC VENOUS INSUFFICIENCY","abbreviation":"CVI"},{"term":"COCHLEAR IMPLANT","abbreviation":"CI"},{"term":"CONGESTIVE HEART FAILURE","abbreviation":"CHF"},{"term":"CONTINUOUS GLUCOSE MONITOR","abbreviation":"CGM"},{"term":"DEFIBRILLATOR ","abbreviation":"ICD"},{"term":"DEPRESSION","abbreviation":"DEP"},{"term":"DIABETES","abbreviation":"DM"},{"term":"DIABETI TYPE2","abbreviation":"DIABETIC TYPE 2"},{"term":"DIABETIC TYPE 1","abbreviation":"DIABETIC T1"},{"term":"DIABETIC TYPE 2","abbreviation":"DIABETIC T2"},{"term":"DO NOT INTUBATE","abbreviation":"DNI"},{"term":"DO NOT RESUSCITATE","abbreviation":"DNR"},{"term":"FACTOR V","abbreviation":"FCTRV"},{"term":"FOOD PROTEIN INDUCED ENTEROCOLITIS SYNDROME","abbreviation":"FPIES"},{"term":"HARD OF HEARING","abbreviation":"HOH"},{"term":"HEPATITIS POSITIVE","abbreviation":"HEP POS"},{"term":"HIGH BLOOD PRESSURE","abbreviation":"HBP"},{"term":"HIGH FUNCTIONING AUTISM SPECTRUM DISORDER","abbreviation":"HFASD"},{"term":"HORMONE REPLACEMENT THERAPY","abbreviation":"HRT"},{"term":"HYPERTENSION","abbreviation":"HTN"},{"term":"HYPERTROPHIC CARDIOMYOPATHY","abbreviation":"HCM"},{"term":"IDIOPATHIC THROMBOCYTOPENIC PURPURA","abbreviation":"ITP"},{"term":"IMPLANTABLE CARDIOVERTER DEFIBRILLATOR","abbreviation":"ICD"},{"term":"INCONTINENCE ","abbreviation":"INCONTINENCE "},{"term":"INTRAVEINOUS","abbreviation":"IV"},{"term":"LATEX ALLERGY","abbreviation":"LA"},{"term":"LONG Q-T SYNDROME","abbreviation":"LQTS"},{"term":"LOW BACK PAIN","abbreviation":"LBP"},{"term":"LOW BLOOD PRESSURE","abbreviation":"LBP"},{"term":"LOW PULSE RATE","abbreviation":"LPR"},{"term":"MAGNETIC RESONANCE IMAGING","abbreviation":"MRI"},{"term":"MALIGNANT HYPERTHERMIA","abbreviation":"MALIG HYPER ALLERGY"},{"term":"MITRA VALVE PROLAPSE","abbreviation":"MVP"},{"term":"MULTIPLE DRUG ALLERGIES","abbreviation":"MDA"},{"term":"MULTIPLE SCLEROSIS","abbreviation":"MS"},{"term":"NO KNOW ALLERGIES","abbreviation":"NKA"},{"term":"NO KNOWN DRUG ALLERGIES","abbreviation":"NKDA"},{"term":"NO MEDICAL HISTORY","abbreviation":"NO MED HX"},{"term":"NOT AN ORGAN DONOR","abbreviation":"NO ORG DON"},{"term":"O NEGATIVE","abbreviation":"O NEG"},{"term":"O NEGATIVE","abbreviation":"O NEG"},{"term":"O POSITIVE","abbreviation":"O POS"},{"term":"ORGAN DONOR","abbreviation":"ORG DON"},{"term":"PENICILLIN","abbreviation":"PCN"},{"term":"POST TRAUMATIC STRESS DISORDER","abbreviation":"PTSD"},{"term":"PULMONARY EMBOLISM","abbreviation":"PE"},{"term":"QUADRUPLE BYPASS SURGERY","abbreviation":"QUAD BYPASS SURG"},{"term":"REACTION","abbreviation":"RXN"},{"term":"RHEUMATIOD ARTHRITIS/DISEASE","abbreviation":"RA/RD"},{"term":"RUNS LOW BLOOD PRESSURE","abbreviation":"RLBP"},{"term":"SENSORY PROCESSING DISORDER","abbreviation":"SPD"},{"term":"SERVICE DOG","abbreviation":"SD"},{"term":"SHORT BOWEL SYNDROME","abbreviation":"SBS"},{"term":"SPINAL CORD INJURY","abbreviation":"SCI"},{"term":"SPINAL CORD STIMULATOR","abbreviation":"SCS"},{"term":"SUPRAVENTRICULAR TACHYACARDIA","abbreviation":"SVT"},{"term":"TETRALOGY OF FALLOT","abbreviation":"TET"},{"term":"THYROID","abbreviation":"THY"},{"term":"TOTAL HIP REPLACEMENT","abbreviation":"THR"},{"term":"TOTAL KNEE REPLACEMENT","abbreviation":"TKR"},{"term":"ULCERATIVE COLITIS","abbreviation":"UC"},{"term":"UPPER RESPIRATORY INFECTION","abbreviation":"URI"},{"term":"VASO-VAGAL SYNCOPE","abbreviation":"VVGS"},{"term":"VENTRICULAR SEPTUM DEFECT","abbreviation":"VSD"},{"term":"VOCAL CHORD DYSFUNCTION","abbreviation":"VCD"}];
 
+    var medicalTermsModalStart =  '<div class="kv_modal">'
+                                  + ' <div class="kv_modal-dialog">'
+                                      + ' <div class="kv_modal-header">'
+                                          + '<h4 id="medical-terms-title">Medical Terms &amp; Abbreviations</h4>'
+                                          + '<span class="terms-close">+</span>'
+                                      + ' </div>'
+                                      + ' <div class="kv_modal-content-block">'
+                                         + ' <div class="kv_modal-body">'
+                                             + ' <div class="container-fluid">'
+                                                 + ' <div class="kv-term-row"><div class="medical-title">'
+                                                          + '<strong>Medical Term</strong>'
+                                                     + '</div>'
+                                                     + ' <div class="abbrev-title">'
+                                                          + ' <strong>Abbreviation</strong>'
+                                                     + ' </div>'
+                                                 + ' </div>';
 
+    var medicalTermsModalEnd = '</div></div></div></div></div>';
+
+    var medicalTermsModalContent = '';
 
     $( window ).on("load", function () {
 
-        Start();
-        window.ImagesModule.imageTipsHelper();
-        loadCssFile('/css/kevalis-styles.css');
-        window.FancyProductDesigner.overlayHelper();
+        kv_start();
+        window.ImagesModule.kv_imageTipsHelper();
+        window.FancyProductDesigner.kv_overlayHelper();
 
     });
 
-    function loadCssFile(filename) {
-        var fileref, filetype = filename.split('.').pop();
-        if (filetype === "css") {
-            fileref = document.createElement("link");
-            fileref.setAttribute("rel", "stylesheet");
-            fileref.setAttribute("type", "text/css");
-            fileref.setAttribute("href", 'http://localhost/wordpress/wp-content/plugins/kevalis-plugin/css/kevalis-styles.css');
-        }
-        if (typeof fileref != "undefined") {
-            document.getElementsByTagName("head")[0].appendChild(fileref);
-        }
-    }
-
-    function Start() {
+    function kv_start() {
         'use strict';
 
-        function addImageTipsPopup() {
+        function kv_addImageTipsPopup() {
 
             $('.fpd-content').after('<div id="tips-popup">'
                 + '<p>Helpful Text Tips Here</p> '
-                + '<div class="closeX">✕</div>'
+                + '<div class="closeX">+</div>'
                 + '</div>');
 
-            $('#tips-popup > .closeX').on('click', toggleImageTips);
+            $('#tips-popup > .closeX').on('click', kv_toggleImageTips);
 
         }
 
-        function toggleImageTips() {
+        function kv_toggleImageTips() {
 
-            // update content on popup for the tab
-            updateTipsPopupContent();
+            kv_updateTipsPopupContent();
 
             if($('#tips-popup').css('display') === 'block') {
                 $('#tips-popup').css('display', 'none');
@@ -296,17 +86,17 @@
             }
         }
 
-        function addImageTips() {
+        function kv_addImageTips() {
             $('.fpd-content').before(
                 '<div class="img-info-link">'
                     + '<p class="tips-link">Text Tips</p>'
                     + '</div>'
             );
 
-            $('.img-info-link').on('click', toggleImageTips);
+            $('.img-info-link').on('click', kv_toggleImageTips);
         }
 
-        function updateTipsLinkText() {
+        function kv_updateTipsLinkText() {
             $('div[data-module]').on('click', function () {
                 var module = $(this).attr("data-module");
                 if ( module === 'images') {
@@ -323,7 +113,7 @@
             });
         }
 
-        function setPopupContent(module) {
+        function kv_setPopupContent(module) {
             if (module === 'images') {
                 $("#tips-popup p").text('Helpful Image Tips');
             } else if (module === "text") {
@@ -337,14 +127,14 @@
             }
         }
 
-        function updateTipsPopupContent() {
+        function kv_updateTipsPopupContent() {
             $('div[data-module]').on('click', function () {
                 var module = $(this).attr("data-module");
-                setPopupContent(module);
+                kv_setPopupContent(module);
             });
         }
 
-        function addTipsOverlay() {
+        function kv_addTipsOverlay() {
             $('.fpd-main-wrapper').append(tipsOverlayHTML);
             $('#instructions-wrapper').on('click', function () {
                 if ($('#instructions-wrapper').css('visibility') === 'visible') {
@@ -353,7 +143,7 @@
             });
         }
 
-        var toggleOverlay = function () {
+        var kv_toggleOverlay = function () {
             if($('#instructions-wrapper').css('visibility') === 'visible') {
                 $('#instructions-wrapper').css('visibility', 'hidden');
             } else {
@@ -361,50 +151,91 @@
             }
         };
 
-        function addShowTipsOverlayLink() {
+        function kv_addShowTipsOverlayLink() {
             $('.fpd-product-designer-wrapper').before('<div>'
-                + '<h1>Custom Design</h1><h2 class="tips-overlay-link">How It Works</h2>'
+                + '<h1 id="kv_custom-design">Custom Design</h1>'
+                + '<h2 class="tips-overlay-link">How It Works</h2>'
                 + '</div>');
-            $('.tips-overlay-link').on('click', toggleOverlay);
+            $('.tips-overlay-link').on('click', kv_toggleOverlay);
         };
 
-        function addMedicalTermsOverlayAndButton(){
-            $(".fpd-module.fpd-active").append(medicalTermsButton);
+        function kv_addMedicalTermsOverlayAndButton(){
+            if($('.fpd-btn > .fpd-price').length){
+              console.log("Its hereeeeeeeee");
+            } else {
+              console.log("It ain't hereeeeeeeeeee"); 
+              setTimeout(function(){ 
+                
+                if($('.fpd-btn > .fpd-price').length){
+               console.log("Its hereeeeeeeee now");
+              }
+                
+                $('.fpd-btn > .fpd-price').parent().after(medicalTermsButton); 
+
+                $('.medical-terms-button').on('click', function () {
+                  $('#kv_medical_tips_overlay').fadeIn(150);
+                  $('.kv_modal').fadeIn(150);
+              });
+
+              }, 500);
+            }
+            $('.fpd-btn > .fpd-price').parent().after(medicalTermsButton);
             $('body').prepend(medicalTermsOverlay);
-            $('body').prepend(medicalTermsModal);
+            var modalBuilt = prepareTermsDialog('medical-terms');
+            $('body').prepend(modalBuilt);
         };
 
+        function prepareTermsDialog(termsType){
 
-        function toggleMedicalTermsOverlay(){
-            $('.close').on('click', function () {
-                $('.overlay').fadeOut(150);
-                $('.modal').fadeOut(150);
+          var i = 0, termsBody = '', termsEnd = '', termsArray = [];
+          
+          if(termsType === 'medical-terms'){
+            termsBody = medicalTermsModalStart;
+            termsEnd = medicalTermsModalEnd; 
+            termsArray = medicalTermsArray;
+          } else {
+
+          }
+
+          for(i = 0; i < termsArray.length; i++){
+            termsBody += ' <div class="kv-term-row"><div><div class="kv-term-value">' 
+                            + termsArray[i].term + '</div></div>'
+                            + ' <div><div class="kv-term-abbreviation">' 
+                            + termsArray[i].abbreviation + '</div></div></div>';
+          }
+
+          termsBody += termsEnd;
+          return termsBody;
+        }
+
+        function kv_toggleMedicalTermsOverlay(){
+            $('.terms-close').on('click', function () {
+                $('#kv_medical_tips_overlay').fadeOut(150);
+                $('.kv_modal').fadeOut(150);
             });
 
-            $('.modal').on('click', function () {
-                $('.overlay').fadeOut(150);
-                $('.modal').fadeOut(150);
+            $('#kv_medical_tips_overlay').on('click', function () {
+                $('#kv_medical_tips_overlay').fadeOut(150);
+                $('.kv_modal').fadeOut(150);
             });
 
             $('.medical-terms-button').on('click', function () {
-                $('.overlay').fadeIn(150);
-                $('.modal').fadeIn(150);
-                // $('.modal').css('display', 'block');
-
+                $('#kv_medical_tips_overlay').fadeIn(150);
+                $('.kv_modal').fadeIn(150);
             });
         }
 
-        window.ImagesModule.imageTipsHelper = function () {
-            addImageTips();
-            updateTipsLinkText();
-            addImageTipsPopup();
+        window.ImagesModule.kv_imageTipsHelper = function () {
+            kv_addImageTips();
+            kv_updateTipsLinkText();
+            kv_addImageTipsPopup();
         };
 
-        window.FancyProductDesigner.overlayHelper = function () {
-            addShowTipsOverlayLink();
-            addTipsOverlay();
-            addMedicalTermsOverlayAndButton();
-            toggleMedicalTermsOverlay();
+        window.FancyProductDesigner.kv_overlayHelper = function () {
+            kv_addShowTipsOverlayLink();
+            kv_addTipsOverlay();
+            kv_addMedicalTermsOverlayAndButton();
+            kv_toggleMedicalTermsOverlay();
         };
 
     }
