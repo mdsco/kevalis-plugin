@@ -64,13 +64,13 @@
     margin-top: 50px;
 }
 
-.instructions-text {
+#kv-instructions-text {
     margin-bottom: 0;
     display: block;
     text-shadow: -3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
-.instructions-text span {
+#kv-instructions-text span {
     margin-top: 5px;
     display: block;
     text-shadow: -3px 5px 9px rgba(0, 0, 0, 0.9);
@@ -110,13 +110,13 @@
     display: block;
 }
 
-.instructions-2-text-wrapper .instructions-text {
+.instructions-2-text-wrapper #kv-instructions-text {
     margin-bottom: 0;
     display: block;
     text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
-.instructions-2-text-wrapper .instructions-text span {
+.instructions-2-text-wrapper #kv-instructions-text span {
     margin-top: 5px;
     display: block;
     text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
@@ -295,7 +295,7 @@
 #medical-terms-title {
     margin: 0;
     font-family: "Helvetica", Arial, sans-serif;
-    font-color: #000;
+    color: #000;
     font-size: 24px;
 }
 
@@ -366,6 +366,36 @@
     color: #fff;
 }
 
+@media screen and (max-width: 800px) {
+
+
+    .instruction-1-container {
+        left: 10%;
+    }
+
+    #kv-instructions-text {
+        font-size: 18px;
+        text-shadow: -3px 5px 9px rgba(0, 0, 0, 0.9)
+    }
+
+    .instruction-1-container img {
+        top: 0;
+        left: 0;
+        width: 120px;
+    }
+
+    .instructions-2-text-wrapper img {
+        width: 120px;
+        right: 15px;
+    }
+
+    .quick-tips-wrapper p {
+        font-size: 32px;
+        line-height: 12px;
+    }
+}
+
+
 @media screen and (max-width: 480px) {
     .kv_modal-header {
         font-size: 18px;
@@ -387,25 +417,43 @@
         font-size: 32px
     }
     .instruction-1-container {
-        top: 6%;
-        left: 3%;
+        top: 3%;
+        left: 7%;
+        right: 0;
     }
-    .instructions-text {
-        font-size: 12px;
+    #kv-instructions-text {
+        font-size: 15px;
+        text-shadow: -3px 5px 9px rgba(0, 0, 0, 0.9)
     }
     .instruction-1-container img {
+        top: 10px;
+        left: 30px;
+        width: 100px;
         transform: rotate(110deg) scale(1, -1);
     }
     .instruction-2-container {
-        top: 0;        
+        top: 55%;
+        left: -9%;
     }
     .instructions-2-text-wrapper {
         top: 5px;        
     }
     .instructions-2-text-wrapper img {
+        width: 100px;
         transform: rotate(15deg);
         position: relative;
-        top: 12px;
+        top: 25px;
+        right: -25px;
+        transform: rotate(-40deg) scale(1, -1);
+    }
+
+    .quick-tips-wrapper .text-top {
+        margin-top: 10px;
+    }
+
+    .quick-tips-wrapper p {
+        font-size: 22px;
+        line-height: 8px;
     }
 
 }
