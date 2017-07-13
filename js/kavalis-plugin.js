@@ -70,7 +70,7 @@
 
     function kv_start() {
 
-        function kv_addImageTipsPopup() {
+        function kv_appendTipsPopup() {
 
             $('.fpd-content').after('<div id="tips-popup">'
                 + '<p>Helpful Text Tips Here</p> '
@@ -78,6 +78,18 @@
                 + '</div>');
 
             $('#tips-popup > .closeX').on('click', kv_toggleImageTips);
+        }
+
+        function kv_addImageTipsPopup() {
+
+            if ($('.fpd-content').length) {
+                kv_appendTipsPopup();
+                kv_updateTipsLinkText();
+            } else {
+                setTimeout(function () {
+                    kv_addImageTipsPopup();
+                }, 200);
+            }
 
         }
 
@@ -93,13 +105,20 @@
         }
 
         function kv_addImageTips() {
-            $('.fpd-content').before(
-                '<div class="img-info-link">'
-                    + '<p class="tips-link">Text Tips</p>'
-                    + '</div>'
-            );
 
-            $('.img-info-link').on('click', kv_toggleImageTips);
+            if ($('.fpd-content').length) {
+                $('.fpd-content').before(
+                    '<div class="img-info-link">'
+                        + '<p class="tips-link">Text Tips</p>'
+                        + '</div>'
+                );
+
+                $('.img-info-link').on('click', kv_toggleImageTips);
+            } else {
+                setTimeout(function () {
+                    kv_addImageTips();
+                }, 200);
+            }
         }
 
         function kv_updateTipsLinkText() {
@@ -112,7 +131,7 @@
                 } else if (module === "designs") {
                     $(".tips-link").text('Custom Design Tips');
                 } else if (module === "names-numbers") {
-                    $(".tips-link").text('Names & names-numbers Tips');
+                    $(".tips-link").text('Names & Numbers Tips');
                 } else if (module === "drawing") {
                     $(".tips-link").text('Drawing Tips');
                 }
@@ -166,24 +185,35 @@
         }
 
         function kv_addMedicalTermsOverlayAndButton() {
-            if ($('.fpd-btn > .fpd-price').length) {
-                // console.log("Its hereeeeeeeee");
-            } else {
-                setTimeout(function () {
 
+            var path = $(location).attr('href');
+            var pathArray = path.split('/');
+
+            if (pathArray.indexOf('bar-pendant') !== -1) {
+
+                if ($('.fpd-btn > .fpd-price').length) {
                     $('.fpd-btn > .fpd-price').parent().after(medicalTermsButton);
 
-                    $('.medical-terms-button').on('click', function () {
-                        $('#kv_medical_tips_overlay').fadeIn(150);
-                        $('.kv_modal').fadeIn(150);
-                    });
+                        $('.medical-terms-button').on('click', function () {
+                            $('#kv_medical_tips_overlay').fadeIn(150);
+                            $('.kv_modal').fadeIn(150);
+                        });
+                } else {
 
-                }, 500);
+                    setTimeout(function () {
+
+                        kv_addMedicalTermsOverlayAndButton();
+
+                    }, 200);
+
+                }
+
+                $('.fpd-btn > .fpd-price').parent().after(medicalTermsButton);
+
+                $('body').prepend(medicalTermsOverlay);
+                var modalBuilt = prepareTermsDialog('medical-terms');
+                $('body').prepend(modalBuilt);
             }
-            $('.fpd-btn > .fpd-price').parent().after(medicalTermsButton);
-            $('body').prepend(medicalTermsOverlay);
-            var modalBuilt = prepareTermsDialog('medical-terms');
-            $('body').prepend(modalBuilt);
         }
 
         function prepareTermsDialog(termsType) {
@@ -225,7 +255,6 @@
 
         window.ImagesModule.kv_imageTipsHelper = function () {
             kv_addImageTips();
-            kv_updateTipsLinkText();
             kv_addImageTipsPopup();
         };
 
