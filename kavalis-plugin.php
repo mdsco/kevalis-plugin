@@ -9,7 +9,7 @@ Version: 1.0.0
 
 function kavalis_plugin_script_enqueue(){
 
-	wp_register_style('Kavalis Style', plugins_url( '/css/kavalis-styles-min.css', __FILE__ ), array(), '1.0.0', 'all');
+	wp_register_style('Kavalis Style', plugins_url( '/css/kavalis-styles.css', __FILE__ ), array(), '1.0.0', 'all');
 
 	wp_enqueue_style('Kavalis Style');
 
