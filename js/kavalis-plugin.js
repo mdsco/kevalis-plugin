@@ -31,7 +31,7 @@
                             + '</div>'
                         + '</div>';
 
-    kvButton = '<button class="kv-button">Medical Terms</button>';
+    kvButton = '<button class="kv-button"></button>';
 
     kvTermsOverlay = '<div id="kv_overlay"></div>';
 
@@ -53,7 +53,7 @@
 
     medicalTermsHeader = ' <div class="kv-term-row kv-col-header">'
                              + '<div class="medical-title">'
-                               + '<strong>Medical Terminos</strong>'
+                               + '<strong>Medical Term</strong>'
                              + '</div>'
                              + ' <div class="abbrev-title">'
                                + ' <strong>Abbreviation</strong>'
@@ -197,19 +197,21 @@
             path = $(location).attr('href');
             pathArray = path.split('/');
 
+            console.log(pathArray);
+
 
             if ($('.fpd-btn > .fpd-price').length) {
 
                 $('.fpd-btn > .fpd-price').parent().after(kvButton);
 
-                //(pathArray.indexOf('fitbit-alta-hr-12mm') !== -1 && pathArray.indexOf('?start_customizing') !== -1) {
-                if (pathArray.indexOf('mountain') !== -1) {
+                if (pathArray.indexOf('fitbit-alta-hr-12mm') !== -1 && pathArray.indexOf('?start_customizing') !== -1) {
+                    console.log("got in fit bit");
                     $('.kv-button').text('Medical Terms');
                     currentPageTermsArray = 'medical-terms';
                     dialogType = 'medical';
                 }
-                // if (pathArray.indexOf('bar-pendant') !== -1) {
-                if (pathArray.indexOf('blueshirt') !== -1) {
+                if (pathArray.indexOf('bar-pendant') !== -1) {
+                    console.log("got in bar-pendant");
                     $('.kv-button').text('Inspirational Quotes');
                     currentPageTermsArray = 'inspirational-quotes';
                     dialogType = 'inspirational';
@@ -220,14 +222,13 @@
                     $('.kv_modal').fadeIn(150);
                 });
 
-                if($('.kv_modal').length === 0){
+                if ($('.kv_modal').length === 0) {
                     $('body').prepend(kvTermsOverlay);
                     var modalBuilt = prepareTermsDialog(currentPageTermsArray);
                     $('body').prepend(modalBuilt);
 
                     $('#modal-terms-title').text(getModalDialogTitle(dialogType));
-                    // if (pathArray.indexOf('bar-pendant') !== -1) {
-                    if (pathArray.indexOf('blueshirt') !== -1) {
+                    if (pathArray.indexOf('bar-pendant') !== -1) {
                         $('.kv-term-value').css({'width': '400px', 'max-width': '400px'});
                     }
                 }
