@@ -142,7 +142,17 @@
                     $(".tips-link").text('Drawing Tips');
                 }
             });
+
+            $('div[data-action]').on('click', function () {
+                var action = $(this).attr("data-action");
+                if (action === 'load') {
+                    $(".tips-link").text('');
+                } else if (action === 'manage-layers') {
+                    $(".tips-link").text('');
+                }
+            });
         }
+
 
         function kv_setPopupContent(module) {
             if (module === 'images') {
