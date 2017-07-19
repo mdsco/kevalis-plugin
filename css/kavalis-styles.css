@@ -53,7 +53,6 @@
     font-size: 40px;
     color: white;
     font-weight: bold
-
 }
 
 .quick-tips-wrapper p {
@@ -145,7 +144,7 @@
     height: 100%;
     background-color: rgba(255, 255, 255, 1);
     color: black;
-    padding-top: 70px;
+    padding-top: 50px;
     box-sizing: border-box;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.6);
     display: none;
@@ -153,9 +152,13 @@
     transition: all 2s ease-in-out;
 }
 
-#tips-popup p {
+#tips-popup h4 {
     text-align: center;
-    /*text-decoration: underline;*/
+    font-family: "Helvetica", Arial, sans-serif;
+    color: black;
+    font-size: 16px;
+    font-size: 23px;
+    letter-spacing: 3px;
     margin: 0 auto;
 }
 
@@ -164,6 +167,16 @@
     position: absolute;
     top: 15px;
     left: 10px;
+}
+
+#pop-up-body {
+    font-size: 14px;
+    margin: 30px 30px;
+    text-align: center;
+}
+
+#pop-up-body a {
+    text-decoration: underline;
 }
 
 .img-info-link {
@@ -219,8 +232,8 @@
     margin-left: 18px;
     max-width: 20px;
     transform: rotate(45deg);
-    
 }
+
 
 
 /*
@@ -228,7 +241,6 @@
     Medical medical-term-abbreviations Overlay
     ================================
 */
-
 
 #kv_overlay {
     display: none;
@@ -439,7 +451,7 @@
         left: -9%;
     }
     .instructions-2-text-wrapper {
-        top: 5px;        
+        top: 5px;
     }
     .instructions-2-text-wrapper img {
         width: 100px;
@@ -458,5 +470,4 @@
         font-size: 22px;
         line-height: 8px;
     }
-
 }
