@@ -9,8 +9,8 @@ Version: 1.0.0
 
 
 function kavalis_register(){
-	wp_register_style('kavalis-style', plugins_url( '/css/kavalis-styles.css', __FILE__ ), array(), '1.0.0', 'all');
-    wp_register_script( 'kevalis-script', plugins_url( '/js/kavalis-plugin.js', __FILE__ ), array('jquery'));
+	wp_register_style('kavalis-style', plugins_url( '/css/kavalis-styles-min.css', __FILE__ ), array(), '1.0.0', 'all');
+    wp_register_script( 'kevalis-script', plugins_url( '/js/kavalis-plugin-min.js', __FILE__ ), array('jquery'));
 }
 
 function kavalis_plugin_script_enqueue(){

@@ -61,6 +61,7 @@
 
 .quick-tips-wrapper .text-top {
     margin-top: 50px;
+    padding-bottom: 30px;
 }
 
 #kv-instructions-text {
@@ -121,6 +122,36 @@
     text-shadow: 3px 5px 9px rgba(0, 0, 0, 0.9);
 }
 
+.info-tips-box {
+    background-color: rgba(255,255,255,.7);
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    box-shadow: 2px 2px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+}
+
+.info-tips-box h4, embed {
+    margin: 5px 0 5px 15px;
+    display: inline;
+}
+
+.info-tips-box embed {
+    height: 34px;
+    width: 34px;
+    margin-left: 10px;
+    vertical-align: middle;
+    padding: 5px;
+}
+
+.info-tips-box h4 {
+    color: black;
+    margin-right: 15px;
+    vertical-align: middle;
+    font-family: "Helvetica", Arial, sans-serif;
+    margin-left: 5px;
+}
+
 .tips-overlay-link {
     font-family: sans-serif;
     font-size: 18px;
@@ -154,12 +185,13 @@
 
 #tips-popup h4 {
     text-align: center;
-    font-family: "Helvetica", Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     color: black;
     font-size: 16px;
     font-size: 23px;
     letter-spacing: 3px;
     margin: 0 auto;
+    text-transform: uppercase;
 }
 
 #tips-popup .closeX {
@@ -208,7 +240,7 @@
     background-color: rgba(56, 56, 56, 0.62);
     display: block;
     color: black;
-    z-index: 100;
+    z-index: 50;
 }
 
 .closeX {
@@ -408,6 +440,27 @@
         font-size: 32px;
         line-height: 12px;
     }
+
+    .info-tips-box {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .info-tips-box h4, embed {
+        margin: 4px 0 4px 0;
+    }
+
+    .info-tips-box embed {
+        height: 36px;
+        width: 36px;
+        margin: 0 5px 0 3px;
+    }
+
+    .info-tips-box h4 {
+        margin-right: 5px;
+        font-size: 14px;
+    }
+
 }
 
 
@@ -464,10 +517,32 @@
 
     .quick-tips-wrapper .text-top {
         margin-top: 10px;
+        padding-bottom: 30px;
     }
 
     .quick-tips-wrapper p {
         font-size: 22px;
         line-height: 8px;
+    }
+
+    .info-tips-box {
+        bottom: 5px;
+        left: 0;
+        right: 0;
+    }
+
+    .info-tips-box h4, embed {
+        margin: 2px 0 2px 0;
+    }
+
+    .info-tips-box embed {
+        height: 24px;
+        width: 24px;
+        margin: 0 5px 0 3px;
+    }
+
+    .info-tips-box h4 {
+        margin-right: 5px;
+        font-size: 12px;
     }
 }

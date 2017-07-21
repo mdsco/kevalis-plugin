@@ -1,6 +1,3 @@
-// + '<img src="http://localhost/wordpress/wp-content/plugins/kavalis-plugin/img/white-arrow-left.png">'
-// + '<img src="http://localhost/wordpress/wp-content/plugins/kavalis-plugin/img/white-arrow-right.png ">'
-
 (function($) {
     'use strict';
 
@@ -20,7 +17,7 @@
         '</div>' +
         '<div class="instruction-2-container">' +
         '<div class="instructions-2-text-wrapper">' +
-        '<img src="http://localhost/wordpress/wp-content/plugins/kavalis-plugin/img/white-arrow-right.png ">' +
+        '<img src="http://localhost/wordpress/wp-content/plugins/kavalis-plugin/img/white-arrow-right.png">' +
         '<h3 class="instructions-number-2">2</h3>' +
         '<p id="kv-instructions-text">Manage layers, undo,' +
         '<span> save and more</span>' +
@@ -30,6 +27,10 @@
         '<div class="quick-tips-wrapper">' +
         '<p class="text-top">Quick tips</p>' +
         '<p>to get started</p>' +
+        '</div>' +
+        '<div class="info-tips-box">' +
+        '<embed src="http://localhost/wordpress/wp-content/plugins/kavalis-plugin/img/info-icon.svg" type="image/svg+xml">' +
+        '<h4>Click the info button for additional tips</h4>' +
         '</div>' +
         '</div>';
 
@@ -42,15 +43,11 @@
     inspirationalQuotesArray = ['Believe', 'Boss Lady', 'Courage', 'Dream', 'Everything Happens For A Reason', 'Fearless', 'Feminist', 'Free Spirit', 'Gratitude', 'Hope', 'I Can, Therefore I Am', 'Let Your Light Shine', 'Life Is Short Live Passionately', 'Live For Yourself', 'Live Laugh Love', 'Love', 'Never, Never, Never Give Up', 'Oh The Place You Will Go', 'She Believed She Could So, She Did', 'The Best Way Out Is Always Through', 'Try And Fail  But Never Fail To Try', 'Work Hard Dream Big', 'You Are My Sunshine'];
 
     termsModalStart = '<div class="kv_modal">' +
-        ' <div class="kv_modal-dialog">'
-
-        +
+        ' <div class="kv_modal-dialog">' +
         ' <div class="kv_modal-header">' +
         '<h4 id="modal-terms-title"></h4>' +
         '<span class="terms-close">+</span>' +
-        ' </div>'
-
-        +
+        ' </div>' +
         ' <div class="kv_modal-content-block">' +
         ' <div class="kv_modal-body">' +
         ' <div class="container-fluid">';
