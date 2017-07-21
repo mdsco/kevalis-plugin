@@ -134,20 +134,27 @@
         }
 
         function kv_updateToolTipsLinkText() {
-            $('div[data-module]').on('click', function() {
+            $('div[data-module]').on('click', function () {
                 var module = $(this).attr("data-module");
                 if (module === 'images') {
+                    $(".img-info-link").css('display', 'block');
                     $(".tips-link").text('Image Tips');
                 } else if (module === "text") {
+                    $(".img-info-link").css('display', 'block');
                     $(".tips-link").text('Text Tips');
                 } else if (module === "designs") {
+                    $(".img-info-link").css('display', 'block');
                     $(".tips-link").text('Custom Design Tips');
                 } else if (module === "names-numbers") {
+                    $(".img-info-link").css('display', 'block');
                     $(".tips-link").text('Names & Numbers Tips');
                 } else if (module === "drawing") {
+                    console.log("in drawing");
+                    $(".img-info-link").css('display', 'none');
                     $(".tips-link").text('Drawing Tips');
                 }
             });
+
 
             $('div[data-action]').on('click', function() {
                 var action = $(this).attr("data-action");
